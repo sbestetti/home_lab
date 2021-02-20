@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.vscode/settings.json
+cert.pem
+key.pem
+app/modules/client_secret.json

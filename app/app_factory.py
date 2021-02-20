@@ -1,6 +1,7 @@
 from flask import Flask
 
 from app import settings
+from app.views import alert
 
 
 def get_app():
@@ -8,8 +9,6 @@ def get_app():
     app = Flask(__name__)
     app.config.from_object(settings)
 
-    @app.route("/healthz")
-    def healthz():
-        return "OK", 200
+    app.register_blueprint(alert.bp)
 
     return app
