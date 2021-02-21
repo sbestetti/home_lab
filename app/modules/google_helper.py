@@ -72,3 +72,14 @@ def get_headers(auth_code: str) -> list:
         response.append(response_item)
 
     return response
+
+
+def set_watch(auth_code: str):
+    credentials = get_credentials(auth_code)
+    service = build("gmail", "v1", credentials=credentials)
+    request = {
+        'labelIds': ['INBOX'],
+        'topicName': 'projects/alerts-304319/topics/ticket_alert'
+        }
+    response = service.users().watch(userId='me', body=request).execute()
+    return response

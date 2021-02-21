@@ -7,7 +7,8 @@ JSONIFY_PRETTYPRINT_REGULAR = True
 # Google API settings
 CLIENTSECRETS_LOCATION = "app/modules/client_secret.json"
 REDIRECT_URI = "https://localhost:8000/oauth_redirect"
-SCOPES = ["https://www.googleapis.com/auth/gmail.metadata"]
+SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+# SCOPES = ["https://www.googleapis.com/auth/gmail.metadata"]
 
 # SQL settings
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
