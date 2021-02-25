@@ -1,20 +1,18 @@
-from http.client import responses
 import json
-import base64
 from flask import (
     Blueprint,
     render_template,
     redirect,
-    url_for,
     jsonify,
     request,
     session,
     )
+from flask.helpers import url_for
 
 # Local imports
 from app.modules import google_helper
 
-bp = Blueprint("index", __name__, url_prefix="/")
+bp = Blueprint("alert", __name__, url_prefix="/alert")
 
 
 @bp.route("/", methods=["GET", "POST"])
@@ -39,12 +37,22 @@ def watch():
 
 @bp.route("/oauth_redirect", methods=["GET", "POST"])
 def oauth_redirect():
-    # Receives access token from Google
-    # after the user authenticates and authorize the app
-    auth_code = request.args.get("code")
-    # session["mail_headers"] = google_helper.get_headers(auth_code)
-    response = google_helper.set_watch(auth_code)
-    return jsonify(response)
+    '''
+    Receives access token from Google
+    after the user authenticates and authorize the app
+    '''
+    session["auth_code"] = request.args.get("code")
+    return redirect(url_for("alert.dashboard"))
+
+
+@bp.route("/dashboard", methods=["GET", "POST"])
+def dashboard():
+    raw_labels = google_helper.get_labels(session["auth_code"])
+    labels = list()
+    for label in raw_labels["labels"]:
+        if label["type"] == "user":
+            labels.append(label["name"])
+    return jsonify(labels)
 
 
 @bp.route("/subjects")
@@ -54,7 +62,7 @@ def subjects():
     return render_template("headers.html", messages=messages)
 
 
-@bp.route("/alerts", methods=["POST"])
+@bp.route("/inbound", methods=["POST"])
 def alerts():
     envelope = json.loads(request.data.decode("utf-8"))
     # payload = base64.b64decode(envelope["message"]["data"])
