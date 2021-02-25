@@ -6,7 +6,7 @@ JSONIFY_PRETTYPRINT_REGULAR = True
 
 # Google API settings
 CLIENTSECRETS_LOCATION = "app/modules/client_secret.json"
-REDIRECT_URI = "https://localhost:8000/oauth_redirect"
+REDIRECT_URI = "https://localhost:8000/alert/oauth_redirect"
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 # SCOPES = ["https://www.googleapis.com/auth/gmail.metadata"]
 
